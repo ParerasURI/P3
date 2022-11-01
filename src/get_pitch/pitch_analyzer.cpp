@@ -12,6 +12,12 @@ namespace upc {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
   		/// \TODO Compute the autocorrelation r[l]
+      /// \DONE Realizamos la autocorrelacion sesgada
+      r[l] = 0;
+      for (unsigned int n = l; n < x.size(); n++){
+        r[l] += x[n]*x[n+l];
+      }
+      r[l] /= x.size();
     }
 
     if (r[0] == 0.0F) //to avoid log() and divide zero 
@@ -50,6 +56,7 @@ namespace upc {
     /// \TODO Implement a rule to decide whether the sound is voiced or not.
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
+  
     return true;
   }
 
@@ -75,6 +82,12 @@ namespace upc {
 	///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
+  /// \DONE Found the maximum value of pitch
+    for(iR = iRMax = r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++){
+      if(*iR > *iRMax){
+        iRMax = iR;
+      }
+    }
 
     unsigned int lag = iRMax - r.begin();
 
