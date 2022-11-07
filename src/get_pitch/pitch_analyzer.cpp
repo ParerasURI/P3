@@ -56,7 +56,7 @@ namespace upc {
     /// \TODO Implement a rule to decide whether the sound is voiced or not.
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
-    if(rmaxnorm>0.6) return false;
+    if(rmaxnorm>amaxnorm && r1norm>0.7) return false;
   
     return true;
   }
