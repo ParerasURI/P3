@@ -31,11 +31,18 @@ namespace upc {
       npitch_min, ///< minimum value of pitch period, in samples
       npitch_max; ///< maximum value of pitch period, in samples
     float amaxnorm;
+    float hu1norm;
+    float hzcr;
  
 	///
 	/// Computes correlation from lag=0 to r.size()
 	///
     void autocorrelation(const std::vector<float> &x, std::vector<float> &r) const;
+
+  ///
+  /// Computes the ZCR
+  ///
+  float compute_zcr(const std::vector<float> &x) const;
 
 	///
 	/// Returns the pitch (in Hz) of input frame x
@@ -54,7 +61,9 @@ namespace upc {
 					Window w=PitchAnalyzer::HAMMING,	///< Window type
 					float min_F0 = MIN_F0,		///< Pitch range should be restricted to be above this value
 					float max_F0 = MAX_F0,		///< Pitch range should be restricted to be below this value
-          float amaxnorm = 0
+          float amaxnorm = 0,
+          float heur_u1norm = 0,
+          float heur_zcr = 0
 				 )
 	{
       frameLen = fLen;
@@ -62,6 +71,8 @@ namespace upc {
       set_f0_range(min_F0, max_F0);
       set_window(w);
       this->amaxnorm = amaxnorm;
+      this->hu1norm = heur_u1norm;
+      this->hzcr = heur_zcr;
     }
 
 	///

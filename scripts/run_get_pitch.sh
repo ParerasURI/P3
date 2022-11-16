@@ -1,9 +1,9 @@
 #!/bin/bash
 
 amaxnorm=${1:+-m ${1}}
-
+hu1norm=${2:+-u ${2}}
 # Put here the program (maybe with path)
-GETF0="get_pitch $amaxnorm"
+GETF0="get_pitch $amaxnorm $hu1norm"
 
 for fwav in pitch_db/train/*.wav; do
     ff0=${fwav/.wav/.f0}

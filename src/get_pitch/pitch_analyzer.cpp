@@ -24,7 +24,19 @@ namespace upc {
       r[0] = 1e-10; 
   }
 
+  float PitchAnalyzer::compute_zcr(const std::vector<float> &x) const {
+    float sum = 0;
+    for(int i=1; i<x.size(); i++){
+        sum += (float) (x[i-1]*x[i] < 0);
+    }
+    return 16000/2/(x.size()-1)*sum;
+  }
+
   void PitchAnalyzer::set_window(Window win_type) {
+
+    float a0 = 25/46;
+    float a1 = 1 - a0;      
+    
     if (frameLen == 0)
       return;
 
@@ -33,6 +45,10 @@ namespace upc {
     switch (win_type) {
     case HAMMING:
       /// \TODO Implement the Hamming window
+      ///\DONE Hamming window implemented
+      for(int i=0;i<frameLen;i++){
+        window[i]=a0 - a1*cos((2*M_PI*i)/(frameLen-1));
+      }
       break;
     case RECT:
     default:
@@ -52,11 +68,13 @@ namespace upc {
       npitch_max = frameLen/2;
   }
 
-  bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm) const {
+  bool PitchAnalyzer::unvoiced(float zcr, float r1norm, float rmaxnorm) const {
     /// \TODO Implement a rule to decide whether the sound is voiced or not.
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
-    if(rmaxnorm>amaxnorm && r1norm>0.7) return false;
+    ///\DONE Heuristic using r1norm and ZCR
+    float heur = r1norm*hu1norm + zcr*hzcr/2500;
+    if(rmaxnorm>amaxnorm && 1<heur) return false;
   
     return true;
   }
@@ -94,6 +112,9 @@ namespace upc {
 
     float pot = 10 * log10(r[0]);
 
+    ///Calculate ZCR
+    float zcr = compute_zcr(x);
+
     //You can print these (and other) features, look at them using wavesurfer
     //Based on that, implement a rule for unvoiced
     //change to #if 1 and compile
@@ -102,7 +123,7 @@ namespace upc {
       cout << pot << '\t' << r[1]/r[0] << '\t' << r[lag]/r[0] << endl;
 #endif
     
-    if (unvoiced(pot, r[1]/r[0], r[lag]/r[0]))
+    if (unvoiced(zcr, r[1]/r[0], r[lag]/r[0]))
       return 0;
     else
       return (float) samplingFreq/(float) lag;

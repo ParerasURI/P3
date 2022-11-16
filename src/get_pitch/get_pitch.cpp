@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string.h>
 #include <errno.h>
+#include <math.h>
 
 #include "wavfile_mono.h"
 #include "pitch_analyzer.h"
@@ -26,7 +27,8 @@ Usage:
 
 Options:
     -m REAL, --amaxnorm=REAL  Llindar del màxim de l'autocorrelació [default: 0.47]
-    -p REAL, --pot=REAL  Potència del senyal mínim
+    -u REAL, --hu1norm=REAL  Heurístic d'Autocorrealció en 1 normalitzada [default: 0.95]
+    -z REAL, --hzcr=REAL  Heurístic de zcr [default: 1.3]
     -h, --help  Show this screen
     --version   Show the version of the project
 
@@ -41,6 +43,7 @@ int main(int argc, const char *argv[]) {
 	/// \TODO 
 	///  Modify the program syntax and the call to **docopt()** in order to
 	///  add options and arguments to the program.
+  ///\DONE amaxnorm, heur_u1norm and heur_zcr arguments added
     std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
         {argv + 1, argv + argc},	// array of arguments, without the program name
         true,    // show help if requested
@@ -49,6 +52,8 @@ int main(int argc, const char *argv[]) {
 	std::string input_wav = args["<input-wav>"].asString();
 	std::string output_txt = args["<output-txt>"].asString();
   float amaxnorm = stof(args["--amaxnorm"].asString());
+  float heur_u1norm = stof(args["--hu1norm"].asString());
+  float heur_zcr = stof(args["--hzcr"].asString());
 
   // Read input sound file
   unsigned int rate;
@@ -62,11 +67,34 @@ int main(int argc, const char *argv[]) {
   int n_shift = rate * FRAME_SHIFT;
 
   // Define analyzer
-  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500, amaxnorm);
+  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500, amaxnorm, heur_u1norm, heur_zcr);
 
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
+  ///\DONE Central-clipping
+  
+  float centcl = 0;
+  float maxim1 = 0;
+  
+  for(int i=0; i<x.size();i++){
+    if(x[i]>maxim1){
+      maxim1=x[i];
+    }
+  }
+
+  centcl=maxim1*0.00047;
+
+  for(int i=0;i<x.size();i++){
+    if(fabs(x[i])<centcl){
+      x[i]=0;
+    }else if(x[i]>centcl){
+      x[i]=x[i]-centcl;
+    }else{
+      x[i]=x[i]+centcl;
+    }
+  }
+
   
   // Iterate for each frame and save values in f0 vector
   vector<float>::iterator iX;
@@ -79,6 +107,17 @@ int main(int argc, const char *argv[]) {
   /// \TODO
   /// Postprocess the estimation in order to supress errors. For instance, a median filter
   /// or time-warping may be used.
+  ///\DONE Median filter
+
+  std::vector<float> mitja(f0);
+
+  float minim, maxim;
+
+  for(int i=2;i<mitja.size()-1;i++){
+    minim=min(min(mitja[i-1],mitja[i]),mitja[i+1]);
+    maxim=max(max(mitja[i-1],mitja[i]),mitja[i+1]);
+    f0[i]=mitja[i-1]+mitja[i]+mitja[i+1]-minim-maxim;
+  }
 
   // Write f0 contour into the output file
   ofstream os(output_txt);
