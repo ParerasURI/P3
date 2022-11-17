@@ -74,7 +74,7 @@ namespace upc {
     ///   or compute and use other ones.
     ///\DONE Heuristic using r1norm and ZCR
     float heur = r1norm*hu1norm + zcr*hzcr/2500;
-    if(rmaxnorm>amaxnorm && 1<heur) return false;
+    if(rmaxnorm>amaxnorm && 0.985<heur) return false;
   
     return true;
   }

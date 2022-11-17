@@ -77,21 +77,21 @@ int main(int argc, const char *argv[]) {
   float centcl = 0;
   float maxim1 = 0;
   
-  for(int i=0; i<x.size();i++){
-    if(x[i]>maxim1){
-      maxim1=x[i];
+  for(int i = 0; i < x.size(); i++){
+    if(x[i] > maxim1){
+      maxim1 = x[i];
     }
   }
 
-  centcl=maxim1*0.00047;
+  centcl = maxim1*0.00047;
 
-  for(int i=0;i<x.size();i++){
-    if(fabs(x[i])<centcl){
-      x[i]=0;
-    }else if(x[i]>centcl){
-      x[i]=x[i]-centcl;
+  for(int i = 0; i < x.size(); i++){
+    if(fabs(x[i]) < centcl){
+      x[i] = 0;
+    }else if(x[i] > centcl){
+      x[i] = x[i] - centcl;
     }else{
-      x[i]=x[i]+centcl;
+      x[i] = x[i] + centcl;
     }
   }
 
@@ -113,10 +113,10 @@ int main(int argc, const char *argv[]) {
 
   float minim, maxim;
 
-  for(int i=2;i<mitja.size()-1;i++){
-    minim=min(min(mitja[i-1],mitja[i]),mitja[i+1]);
-    maxim=max(max(mitja[i-1],mitja[i]),mitja[i+1]);
-    f0[i]=mitja[i-1]+mitja[i]+mitja[i+1]-minim-maxim;
+  for(int i = 0; i < mitja.size() - 1; i++){
+    minim = min(min(mitja[i-1], mitja[i]), mitja[i+1]);
+    maxim = max(max(mitja[i-1], mitja[i]), mitja[i+1]);
+    f0[i] = mitja[i-1] + mitja[i] + mitja[i+1] - minim - maxim;
   }
 
   // Write f0 contour into the output file
