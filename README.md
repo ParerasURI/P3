@@ -77,6 +77,8 @@ Ejercicios de ampliación
   * Inserte un *pantallazo* en el que se vea el mensaje de ayuda del programa y un ejemplo de utilización
     con los argumentos añadidos.
 
+  <img width="683" alt="Argumentos añadidos al get_pitch.cpp" src="argsdocopt.png">
+
   <img width="683" alt="Argumentos añadidos al get_pitch.cpp" src="argsdocopot.png">
 
 - Implemente las técnicas que considere oportunas para optimizar las prestaciones del sistema de estimación
