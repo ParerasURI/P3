@@ -34,8 +34,9 @@ namespace upc {
 
   void PitchAnalyzer::set_window(Window win_type) {
 
-    float a0 = 25/46;
-    float a1 = 1 - a0;      
+    float c0 = 25/46;
+    float c1 = 1 - c0;
+    float PI = 3.14159264;      
     
     if (frameLen == 0)
       return;
@@ -46,8 +47,8 @@ namespace upc {
     case HAMMING:
       /// \TODO Implement the Hamming window
       ///\DONE Hamming window implemented
-      for(int i=0;i<frameLen;i++){
-        window[i]=a0 - a1*cos((2*M_PI*i)/(frameLen-1));
+      for(int i = 0; i < frameLen; i++){
+        window[i] = c0 - c1*cos((2*PI*i)/(frameLen - 1));
       }
       break;
     case RECT:
