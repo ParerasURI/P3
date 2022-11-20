@@ -15,7 +15,7 @@ Ejercicios básicos
 
    * Complete el cálculo de la autocorrelación e inserte a continuación el código correspondiente.
 
-   <img width="683" alt="Cálculo de la autocorrelación" src="autocorrelation1.png">
+   <img width="683" alt="Cálculo de la autocorrelación" src="imgs/autocorrelation1.png">
 
    * Inserte una gŕafica donde, en un *subplot*, se vea con claridad la señal temporal de un segmento de
      unos 30 ms de un fonema sonoro y su periodo de pitch; y, en otro *subplot*, se vea con claridad la
@@ -23,15 +23,17 @@ Ejercicios básicos
 
 	 NOTA: es más que probable que tenga que usar Python, Octave/MATLAB u otro programa semejante para
 	 hacerlo. Se valorará la utilización de la biblioteca matplotlib de Python.
+   
+   <img width="683" alt="Plot de la señal en un tramo sonoro y su autocorrelación" src="imgs/autocorrelation.png">
 
    * Determine el mejor candidato para el periodo de pitch localizando el primer máximo secundario de la
      autocorrelación. Inserte a continuación el código correspondiente.
 
-  <img width="683" alt="Decisión sordo o sonoro" src="encmax.png">
+  <img width="683" alt="Decisión sordo o sonoro" src="imgs/encmax.png">
 
    * Implemente la regla de decisión sonoro o sordo e inserte el código correspondiente.
 
-   <img width="683" alt="Decisión sordo o sonoro" src="decision.png">
+   <img width="683" alt="Decisión sordo o sonoro" src="imgs/decision.png">
 
    * Puede serle útil seguir las instrucciones contenidas en el documento adjunto `código.pdf`.
 
@@ -51,10 +53,13 @@ Ejercicios básicos
 	    Recuerde configurar los paneles de datos para que el desplazamiento de ventana sea el adecuado, que
 		en esta práctica es de 15 ms.
 
+      En la gráfica podemos ver los candidatos indicados en negro, rojo y verde (y la zcr en azul).
+      <img width="683" alt="Decisión sordo o sonoro" src="imgs/p3plot.png">
+
       - Use el estimador de pitch implementado en el programa `wavesurfer` en una señal de prueba y compare
 	    su resultado con el obtenido por la mejor versión de su propio sistema.  Inserte una gráfica
 		ilustrativa del resultado de ambos estimadores.
-     
+      <img width="683" alt="Score total del programa" src="imgs/pitch_comparison.png">
 		Aunque puede usar el propio Wavesurfer para obtener la representación, se valorará
 	 	el uso de alternativas de mayor calidad (particularmente Python).
   
@@ -62,7 +67,7 @@ Ejercicios básicos
     y el *score* TOTAL proporcionados por `pitch_evaluate` en la evaluación de la base de datos 
 	`pitch_db/train`..
 
-  <img width="683" alt="Score total del programa" src="scoreTotal.png">
+  <img width="683" alt="Score total del programa" src="imgs/scoreTotal.png">
 
 Ejercicios de ampliación
 ------------------------
@@ -77,9 +82,9 @@ Ejercicios de ampliación
   * Inserte un *pantallazo* en el que se vea el mensaje de ayuda del programa y un ejemplo de utilización
     con los argumentos añadidos.
 
-  <img width="683" alt="Argumentos añadidos al get_pitch.cpp" src="argsdocopt.png">
+  <img width="683" alt="Argumentos añadidos al get_pitch.cpp" src="imgs/argsdocopt.png">
 
-  <img width="683" alt="Argumentos añadidos al get_pitch.cpp" src="argsdocopot.png">
+  <img width="683" alt="Argumentos añadidos al get_pitch.cpp" src="imgs/argsdocopot.png">
 
 - Implemente las técnicas que considere oportunas para optimizar las prestaciones del sistema de estimación
   de pitch.
@@ -88,18 +93,18 @@ Ejercicios de ampliación
 
   * Técnicas de preprocesado: filtrado paso bajo, diezmado, *center clipping*, etc.
 
-  <img width="683" alt="Preprocesado: Penter Clipping" src="centerclipping.png">
+  <img width="683" alt="Preprocesado: Penter Clipping" src="imgs/centerclipping.png">
 
   * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
 
-  <img width="683" alt="Postprocesado: Filtro de Mediana" src="filtromediana.png">
+  <img width="683" alt="Postprocesado: Filtro de Mediana" src="imgs/filtromediana.png">
 
   * Métodos alternativos a la autocorrelación: procesado cepstral, *average magnitude difference function*
     (AMDF), etc.
   * Optimización **demostrable** de los parámetros que gobiernan el estimador, en concreto, de los que
     gobiernan la decisión sonoro/sordo.
 
-  <img width="683" alt="Unvoiced usando ZCR" src="unvoicedzcr.png">
+  <img width="683" alt="Unvoiced usando ZCR" src="imgs/unvoicedzcr.png">
 
   En vez de usar la potencia calculada a partir del 10*log(r[0]), nos hemos decantado en usar el cálculo de la ZCR de la señal para así mejorar el programa.
 
@@ -107,7 +112,7 @@ Ejercicios de ampliación
 
   -> Cálculo de la ZCR usada en Unvoiced para determinar si el sonido es sordo o sonoro.
 
-  <img width="683" alt="Cálculo de la ZCR" src="computezcr.png">
+  <img width="683" alt="Cálculo de la ZCR" src="imgs/computezcr.png">
 
   Encontrará más información acerca de estas técnicas en las [Transparencias del Curso](https://atenea.upc.edu/pluginfile.php/2908770/mod_resource/content/3/2b_PS%20Techniques.pdf)
   y en [Spoken Language Processing](https://discovery.upc.edu/iii/encore/record/C__Rb1233593?lang=cat).
@@ -120,23 +125,23 @@ Ejercicios de ampliación
 
   -> Para encontrar el valor máximo de la autocorrelación, vamos iterando a lo largo del vector r y vamos guardando el último valor mayor en la variable iRMax. El código está a continuacuión:
 
-    <img width="683" alt="Valor máximo autocorrelación" src="encmax.png">  
+    <img width="683" alt="Valor máximo autocorrelación" src="imgs/encmax.png">  
 
   -> Como hemos podido ver anteriormente, hemos calculado el heurístico a partir de zcr y n1norm, calculados en el programa, y hzcr y hu1norm encontrados optimizando el programa con la ayuda del shell y el comando for para encontrar el valor que nos retorna un resultado más favorable. El código está a continuacuión:
     
-    <img width="683" alt="Decisión sordo o sonoro" src="decision.png">
+    <img width="683" alt="Decisión sordo o sonoro" src="imgs/decision.png">
 
   -> Hemos implementado la ventana de Hamming y ha mejorado, aunque sea en pequeña medida, el cálculo del pitch total. El código está a continuacuión: 
 
-    <img width="683" alt="Ventana de Hamming" src="hamming.png">
+    <img width="683" alt="Ventana de Hamming" src="imgs/hamming.png">
 
   -> Este método de preprocesado consiste en la atenuación de la amplitud de la señal, lo que permite aumentar la intensidad de los armónicos superiores introduciendo una distorsión no lineal. De esta manera, el ruido tiene un impacto menor al momento de calcular el pitch. El código está a continuacuión:
 
-    <img width="683" alt="Preprocesado: Center Clipping" src="centerclipping.png">
+    <img width="683" alt="Preprocesado: Center Clipping" src="imgs/centerclipping.png">
 
   -> Este método de postprocesado consiste en un filtro no lineal que evita un mal registro del pitch mediante el uso de múltiplos o submúltiplos de su frecuencia real. Se basa en promediar sobre una ventana centrada en cada momento para reducir el ruido. El código está a continuacuión:
 
-    <img width="683" alt="Postprocesado: Filtro de Mediana" src="filtromediana.png">  
+    <img width="683" alt="Postprocesado: Filtro de Mediana" src="imgs/filtromediana.png">  
 
 
 

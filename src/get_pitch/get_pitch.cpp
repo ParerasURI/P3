@@ -26,9 +26,9 @@ Usage:
     get_pitch --version
 
 Options:
-    -m REAL, --amaxnorm=REAL  Llindar del màxim de l'autocorrelació [default: 0.47]
-    -u REAL, --hu1norm=REAL  Heurístic d'Autocorrealció en 1 normalitzada [default: 0.95]
-    -z REAL, --hzcr=REAL  Heurístic de zcr [default: 1.3]
+    -m REAL, --amaxnorm=REAL  Llindar del màxim de l'autocorrelació [default: 0.4]
+    -u REAL, --hu1norm=REAL  Heurístic d'Autocorrealció en 1 normalitzada [default: 1.0]
+    -z REAL, --hzcr=REAL  Heurístic de zcr [default: 0.8]
     -h, --help  Show this screen
     --version   Show the version of the project
 
